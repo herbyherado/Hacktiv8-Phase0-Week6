@@ -123,13 +123,15 @@ em {
 
 /* --------------------------------------- */
 .form-input {
-    grid-column: 100%;
+    grid-column: 90%;
 }
 
 form{
     position: relative;
     top: 10%;
-    right: 5%;
+    /* right: 5%; */
+    margin-right: 2.5%;
+    margin-left: 2.5%;
     padding:10px;
     background-color: rgba(51, 204, 51, 0.846);
     box-shadow: 8px 8px 12px 0px #69696981;
