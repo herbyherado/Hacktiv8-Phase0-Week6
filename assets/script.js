@@ -2,6 +2,7 @@
 var rows = 5;
 var cols = 5;
 var squareSize = 100;
+var coordinates = ['A', 'B', 'C', 'D', 'E'];
 
 // get the container element
 var gameBoardContainer = document.getElementById('gameboard');
@@ -24,6 +25,7 @@ for (i = 0; i < cols; i++){
         // use CSS absolute positioning to place each grid square on the page
         square.style.top = topPosition + 'px';
         square.style.left = leftPosition + 'px';
+        square.title = `${coordinates[j]} ${i}`
 
     }
 }
@@ -53,14 +55,21 @@ function hitEnter(e){
     }
 }
 //----------------------FUNCTION FOR TEXT PROCESSING IN FORM------------------------//
-
-var coordinates = ['A', 'B', 'C', 'D', 'E'];
+var turn = 5;
 
 function fire(){
+    // changes amount of turns in heading
+    if (turn === 0){
+        return alert('Reload page to play again.')
+    }
+    turn--;
+    document.getElementById('t').innerHTML = turn;
+    // console.log(document.getElementById('t'))
+    
     // gets the value and changes it to uppercase
     // alert(document.getElementById('guess-input').value)
     var guess = document.getElementById('guess-input').value.toUpperCase();
-    console.log(guess)
+    // console.log(guess)
 
     // if input is greater than 2 characters, then return 
     if(guess.length > 2){
@@ -78,7 +87,7 @@ function fire(){
         return alert("Please input your row coordinates between A-E")
     }
     // check if input between 0-4 is correct
-    if (positionY < 0 && positionY > 4 || !positionY){
+    if (positionY < 0 || positionY > 4 || !positionY){
         document.getElementById("message").innerHTML = "That's not even the space! haha!"
         return alert("Please input your column coordinates between 0-4")
     }
@@ -96,12 +105,21 @@ function checkShip(target, idTarget, guess){
     if (target == hiddenShip){
         document.getElementById(idTarget).style.backgroundColor = 'rgba(252,13,27,0.8)';
         document.getElementById("message").innerHTML = "Congratulations! You destroyed my Battleship!"
+        turn = 0;
+        document.getElementById('t').innerHTML = turn;
         return alert('Congratulations! You destroyed my Battleship!')
     } else {
         // console.log('==========')
+        if (turn == 0){
+            document.getElementById("message").innerHTML = `Your coordinate input ------- ${guess[0]} ${guess[1]} You Lose! Our hidden Battleship is at ${coordinates[(hiddenShip[0])]} ${hiddenShip[1]} indicated at red`
+            // console.log('s'+hiddenShip)
+            document.getElementById('s'+hiddenShip).style.backgroundColor = 'rgba(252,13,27,0.8)';
+            document.getElementById(idTarget).style.backgroundColor = 'rgba(255, 212, 55, 0.65)';
+            return alert('You Lose!');
+        }
+        
         // changes color of the border
         document.getElementById("message").innerHTML = `Your coordinate input ------- ${guess[0]} ${guess[1]}  You missed my Battleship! Try again!`
         document.getElementById(idTarget).style.backgroundColor = 'rgba(255, 212, 55, 0.65)';
     }
 }
-
